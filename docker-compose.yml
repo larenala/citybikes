@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  server:
+    image: bikes/server
+    build: ./bikes_backend
+    restart: always
+    volumes:
+      - ./bikes_backend:/app
+    command: bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir app"
+    ports:
+      - "8000:8000"
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+
+  client:
+    image: bikes/client
+    build: ./bikes_frontend
+    volumes:
+        - './bikes_frontend:/app'
+        - '/app/node_modules'
+    restart: always
+    ports:
+      - "3000:3000"
+
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pg-bikes-data:/var/lib/postgresql/data
+ 
+volumes:
+  pg-bikes-data:
