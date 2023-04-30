@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2
+RUN pip install --upgrade --no-cache-dir -r /app/requirements.txt
 
 COPY . .
