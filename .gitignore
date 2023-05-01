@@ -1,2 +1,4 @@
 /bikes_frontend/node_modules
 .env
+.DS_Store
+data/

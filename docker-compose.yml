@@ -12,6 +12,7 @@ services:
       - pg-bikes-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
   
   server:
     image: bikes/server
@@ -19,6 +20,7 @@ services:
     restart: always
     volumes:
       - ./bikes_backend:/app
+      - ./data:/data
     command: bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir app"
     ports:
       - "8000:8000"
