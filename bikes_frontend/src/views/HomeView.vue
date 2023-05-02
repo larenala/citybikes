@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BikesList from '../components/BikesList.vue'
+import Journeys from '../components/Journeys.vue'
 </script>
 
 <template>
   <main>
-    <BikesList />
+    <Journeys />
   </main>
 </template>

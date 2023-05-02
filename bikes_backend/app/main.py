@@ -1,10 +1,11 @@
 import os
 import csv
 import time
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, event
-from app import models, schemas
+from sqlalchemy.orm import Session
+from app import crud, models, schemas
 from app.db import engine, get_db
 
 app = FastAPI()
@@ -65,8 +66,11 @@ def configure():
     get_data()
     models.Base.metadata.create_all(bind=engine)
 
-@app.get("/")
-async def root():
-    return {"message": "List of bikes"}
+@app.get("/journeys")
+async def list_all_journeys(db: Session = Depends(get_db)):
+    return crud.list_all_journeys(db=db)
 
+@app.get("/stations")
+async def list_all_stations(db: Session = Depends(get_db)):
+    return crud.list_all_stations(db=db)
 
